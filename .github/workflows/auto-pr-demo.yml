@@ -17,7 +17,7 @@ jobs:
         uses: rlespinasse/git-commit-info-action@v1.x
 
       - name: Update author information
-        run: echo "${{ env.GIT_COMMIT_AUTHOR_NAME }}" > AUTHOR
+        #run: echo "${{ env.GIT_COMMIT_AUTHOR_NAME }}" > AUTHOR
 
       - name: Create PR
         uses: peter-evans/create-pull-request@v5
