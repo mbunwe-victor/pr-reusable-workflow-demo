@@ -5,30 +5,32 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   updateAuthor:
     runs-on: ubuntu-latest
-  steps:
-    - name: Checkout
-      uses: actions/checkout@v2
 
-    - name: extract git commit data
-      uses: rlespinasse/git-commit-info-action@v2
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Update author informaton
-      run: echo ${{ env.GIT_COMMIT_AUTHOR_NAME }} > AUTHOR
+      - name: Extract git commit data
+        uses: rlespinasse/git-commit-info-action@v2
 
-    - name: Create PR
-      uses: peter-evans/create-pull-request@v3
-      with:
-        branch: "auto-pr-branch"
-        token: ${{ secrets.GITHUB_TOKEN }}
-        committer: ${{ env.GIT_COMMIT_AUTHOR_NAME }} <${{ env.GIT_COMMIT_AUTHOR_EMAIL }}">
-        author: ${{ env.GIT_COMMIT_AUTHOR_NAME }} <${{ env.GIT_COMMIT_AUTHOR_EMAIL }}">
-        title: "demo for auto pr"
-        body: 
-          demo for auto pr
+      - name: Update author information
+        run: echo "${{ env.GIT_COMMIT_AUTHOR_NAME }}" > AUTHOR
 
-        delete-branch: true
-        #squash: true
-        
+      - name: Create PR
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: auto-pr-branch
+          committer: "${{ env.GIT_COMMIT_AUTHOR_NAME }} <${{ env.GIT_COMMIT_AUTHOR_EMAIL }}>"
+          author: "${{ env.GIT_COMMIT_AUTHOR_NAME }} <${{ env.GIT_COMMIT_AUTHOR_EMAIL }}>"
+          title: "demo for auto pr"
+          body: "This is a demo for auto pull request"
+          commit-message: "chore: update AUTHOR file with latest committer info"
+          delete-branch: true
