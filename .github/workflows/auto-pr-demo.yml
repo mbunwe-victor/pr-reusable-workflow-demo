@@ -29,4 +29,4 @@ jobs:
           title: "demo for auto pr"
           body: "This is a demo for auto pull request"
           commit-message: "chore: update AUTHOR file with latest committer info"
-          delete-branch: true
+          delete-branch: false
