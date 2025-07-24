@@ -11,6 +11,6 @@ jobs:
   call-reusable-workflow:
     uses: ./.github/workflows/reusable-pr-workflow.yml
     with:
-      branch: image-updates
+      branch: image-update
       base: main
       pr_title: "chore: update Dockerfile"
