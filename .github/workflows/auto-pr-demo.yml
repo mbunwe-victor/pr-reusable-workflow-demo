@@ -19,7 +19,6 @@ jobs:
             :crown: *An automated PR*
 
             _Created by [diillson/auto-pull-request](https://github.com/diillson/auto-pull-request)_
-          pr_template: ".github/PULL_REQUEST_TEMPLATE.md"
           pr_reviewer: "diillson,worker"
           pr_assignee: "diillson,worker"
           pr_label: "auto-pr"
