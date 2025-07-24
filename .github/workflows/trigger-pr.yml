@@ -1,0 +1,16 @@
+name: Trigger PR
+
+on:
+  push:
+    branches:
+      - image-updates
+    paths:
+      - Dockerfile
+
+jobs:
+  call-reusable-workflow:
+    uses: ./.github/workflows/reusable-pr-workflow.yml
+    with:
+      branch: image-updates
+      base: main
+      pr_title: "chore: update Dockerfile"
