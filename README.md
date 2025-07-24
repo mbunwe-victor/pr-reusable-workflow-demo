@@ -11,3 +11,4 @@ This repository demonstrates a GitHub workflow for reviewing and merging pull re
 To use this workflow, you need to create a new workflow file in your repository. The workflow file should be named `.github/workflows/pr-workflow.yml`. The workflow file should contain the following steps:
 
 This was just a test to see if I could get this to work.
+And it did work

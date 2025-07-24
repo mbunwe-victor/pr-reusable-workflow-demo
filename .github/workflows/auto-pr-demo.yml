@@ -20,7 +20,6 @@ jobs:
 
             _Created by [diillson/auto-pull-request](https://github.com/diillson/auto-pull-request)_
           pr_label: "auto-pr"
-          pr_draft: false
           pr_allow_empty: true
           github_token: ${{ secrets.GH_PAT }}
 
