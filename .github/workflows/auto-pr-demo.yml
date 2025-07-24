@@ -1,0 +1,34 @@
+name: Demo to create automatic PR
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  updateAuthor:
+  runs-on: ubuntu-latest
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: extract git commit data
+      uses: rlespinasse/git-commit-info-action@v2
+
+    - name: Update author informaton
+      run: echo ${{ env.GIT_COMMIT_AUTHOR_NAME }} > AUTHOR
+
+    - name: Create PR
+      uses: peter-evans/create-pull-request@v3
+      with:
+        branch: "auto-pr-branch"
+        token: ${{ secrets.GITHUB_TOKEN }}
+        committer: ${{ env.GIT_COMMIT_AUTHOR_NAME }} <${{ env.GIT_COMMIT_AUTHOR_EMAIL }}">
+        author: ${{ env.GIT_COMMIT_AUTHOR_NAME }} <${{ env.GIT_COMMIT_AUTHOR_EMAIL }}">
+        title: "demo for auto pr"
+        body: 
+          demo for auto pr
+
+        delete-branch: true
+        #squash: true
+        
