@@ -16,9 +16,6 @@ jobs:
       - name: Extract git commit data
         uses: rlespinasse/git-commit-info-action@v1.x
 
-      - name: Force a file change
-        run: echo "$(date)" > updated-at.txt
-
       - name: Create PR
         uses: peter-evans/create-pull-request@v5
         with:
