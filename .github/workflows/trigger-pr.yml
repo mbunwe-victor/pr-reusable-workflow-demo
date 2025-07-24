@@ -3,7 +3,7 @@ name: Trigger PR
 on:
   push:
     branches:
-      - image-updates
+      - image-update
     paths:
       - Dockerfile
 
