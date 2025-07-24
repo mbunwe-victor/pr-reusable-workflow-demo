@@ -9,3 +9,12 @@ This repository demonstrates a GitHub workflow for reviewing and merging pull re
 5. **Close the pull request**: After the pull request is merged, the workflow closes the pull request. This step is where the pull request is closed and no longer visible to other users.
 ## How to use this workflow
 To use this workflow, you need to create a new workflow file in your repository. The workflow file should be named `.github/workflows/pr-workflow.yml`. The workflow file should contain the following steps:
+```yaml
+name: PR Workflow Demo
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+jobs:
+  pr-workflow:
+    runs-on: ubuntu-latest
+    steps:
