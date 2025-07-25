@@ -9,17 +9,21 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Get latest commit message
+        id: commit
+        run: |
+          COMMIT_MESSAGE=$(git log -1 --pretty=format:"%s%n%n%b")
+          echo "message<<EOF" >> $GITHUB_OUTPUT
+          echo "$COMMIT_MESSAGE" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
       - name: Create Pull Request
         uses: diillson/auto-pull-request@v1.0.1
         with:
-          source_branch: ""                                
-          destination_branch: "main"                      
-          pr_title: "Pulling ${{ github.ref }} into master"
-          pr_body: |
-            :crown: *An automated PR*
-
-            _Created by [diillson/auto-pull-request](https://github.com/diillson/auto-pull-request)_
+          source_branch: "image-update"
+          destination_branch: "main"
+          pr_title: "${{ steps.commit.outputs.message }}"
+          pr_body: "${{ steps.commit.outputs.message }}"
           pr_label: "auto-pr"
           pr_allow_empty: true
           github_token: ${{ secrets.GH_PAT }}
-
