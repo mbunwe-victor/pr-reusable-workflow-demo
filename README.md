@@ -6,3 +6,9 @@ This repository demonstrates a GitHub workflow for reviewing and merging pull re
 2. **Run tests**: The workflow runs the tes
 3. **Review the code**: The workflow reviews the code changes made in the pull request. This step is where you can provide feedback on the code changes and make any necessary changes.
 4. **Merge the pull request**: If the code changes are approved, the workflow merges the pull request into the main branch of the repository. This step is where the pull request is actually merged into the main branch.
+5. **Close the pull request**: After the pull request is merged, the workflow closes the pull request. This step is where the pull request is closed and no longer visible to other users.
+## How to use this workflow
+To use this workflow, you need to create a new workflow file in your repository. The workflow file should be named `.github/workflows/pr-workflow.yml`. The workflow file should contain the following steps:
+
+This was just a test to see if I could get this to work.
+And it did work

@@ -1,29 +1,30 @@
-name: Demo to create automatic PR
-
 on:
   push:
     branches:
       - image-update
 
 jobs:
-  updateAuthor:
+  pull-request:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v3
 
-      - name: Extract git commit data
-        uses: rlespinasse/git-commit-info-action@v1.x
+      - name: Get latest commit message
+        id: commit
+        run: |
+          COMMIT_MESSAGE=$(git log -1 --pretty=format:"%s%n%n%b")
+          echo "message<<EOF" >> $GITHUB_OUTPUT
+          echo "$COMMIT_MESSAGE" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
 
-      - name: Create PR
-        uses: peter-evans/create-pull-request@v5
+      - name: Create Pull Request
+        uses: diillson/auto-pull-request@v1.0.1
         with:
-          token: ${{ secrets.GH_TOKEN }}
-          branch: auto-pr-branch-create
-          committer: "${{ env.GIT_COMMIT_AUTHOR_NAME }} <${{ env.GIT_COMMIT_AUTHOR_EMAIL }}>"
-          author: "${{ env.GIT_COMMIT_AUTHOR_NAME }} <${{ env.GIT_COMMIT_AUTHOR_EMAIL }}>"
-          title: "demo for auto pr"
-          body: "This is a demo for auto pull request"
-          commit-message: "chore: update AUTHOR file with latest committer info"
-          delete-branch: false
+          source_branch: "image-update"
+          destination_branch: "auto-pr-branch-create"
+          pr_title: "${{ steps.commit.outputs.message }}"
+          pr_body: "${{ steps.commit.outputs.message }}"
+          pr_label: "auto-pr"
+          pr_allow_empty: true
+          github_token: ${{ secrets.GH_PAT }}
+ 
