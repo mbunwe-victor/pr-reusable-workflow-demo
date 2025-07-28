@@ -1,14 +1,39 @@
 # PR Workflow Demo
 
 ## Overview
-This repository demonstrates a GitHub workflow for reviewing and merging pull requests. The workflow is designed to be run on a GitHub Actions runner, and it includes the following steps:
-1. **Checkout the code**: The workflow starts by checking out the code from the repository. This step is necessary to access the code that is being reviewed.
-2. **Run tests**: The workflow runs the tes
-3. **Review the code**: The workflow reviews the code changes made in the pull request. This step is where you can provide feedback on the code changes and make any necessary changes.
-4. **Merge the pull request**: If the code changes are approved, the workflow merges the pull request into the main branch of the repository. This step is where the pull request is actually merged into the main branch.
-5. **Close the pull request**: After the pull request is merged, the workflow closes the pull request. This step is where the pull request is closed and no longer visible to other users.
-## How to use this workflow
-To use this workflow, you need to create a new workflow file in your repository. The workflow file should be named `.github/workflows/pr-workflow.yml`. The workflow file should contain the following steps:
+This repository demonstrates a GitHub Actions workflow that automates the creation of pull requests (PRs) when changes are pushed to a specific branch. The workflow streamlines the process of merging updates—such as automated image or dependency updates—by automatically opening a PR for review and merging.
 
-This was just a test to see if I could get this to work.
-And it did work
+## Workflow Logic
+The workflow is defined in `.github/workflows/auto-pr-demo.yml` and operates as follows:
+
+- **Trigger:** The workflow runs on every push to the `image-update` branch.
+- **Job:** `pull-request`
+  - **Environment:** Runs on the latest Ubuntu GitHub Actions runner.
+  - **Steps:**
+    1. **Checkout code:** Retrieves the repository code using `actions/checkout@v3`.
+    2. **Expose commit data:** Extracts commit message subject and body as environment variables using `rlespinasse/git-commit-data-action@v1`.
+    3. **Create Pull Request:** Uses `diillson/auto-pull-request@v1.0.1` to automatically create a pull request:
+        - **Source branch:** `image-update`
+        - **Destination branch:** `auto-pr-branch-create`
+        - **Title/Body:** Populated from the commit message
+        - **Label:** Adds an `auto-pr` label
+        - **Reviewer:** Assigns a reviewer (can be customized)
+        - **Allows empty PRs:** Yes (`pr_allow_empty: true` ensures a pull request is created even if there are no changes between the branches. This is useful for automation consistency, notifications, or triggering downstream processes that rely on the PR event, even when there are no file changes.)
+        - **Authentication:** Uses a GitHub token stored in `secrets.GH_PAT`
+
+## Project Concerns & Design Considerations
+- **Automation:** Reduces manual effort by automatically creating PRs for updates, ensuring changes are reviewed before merging.
+- **Consistency:** Standardizes the PR creation process for automated updates.
+- **Security:** Uses a GitHub token for authentication and assigns a reviewer to ensure changes are reviewed.
+- **Transparency:** All workflow actions and PRs are visible in the GitHub interface.
+- **Extensibility:** The workflow can be modified to support additional branches, reviewers, or steps as needed.
+- **Limitations:** The workflow assumes the presence of the `image-update` and `auto-pr-branch-create` branches and a valid `GH_PAT` secret.
+
+## How to use this workflow
+1. Ensure you have the branches `image-update` and `auto-pr-branch-create` in your repository.
+2. Add a GitHub personal access token as a repository secret named `GH_PAT`.
+3. Place the workflow file at `.github/workflows/auto-pr-demo.yml` (already present in this repo).
+4. Push changes to the `image-update` branch to trigger the workflow and automatically open a PR to `auto-pr-branch-create`.
+
+---
+Feel free to customize the workflow file to fit your team's requirements or to add additional steps as needed.
