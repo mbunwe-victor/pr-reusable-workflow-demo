@@ -28,4 +28,3 @@ jobs:
           pr_reviewer: "Ngha-Boris"  #"mbunwe-victor,Awambeng"
           pr_allow_empty: true
           github_token: ${{ secrets.GH_PAT }}
- 
