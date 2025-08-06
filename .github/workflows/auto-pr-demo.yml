@@ -3,7 +3,7 @@ name: auto-pr-demo
 on:
   push:
     branches:
-      - image-update
+      - auto-pr-branch-create
 
 jobs:
   pull-request:
@@ -17,14 +17,14 @@ jobs:
       - name: Create Pull Request
         uses: diillson/auto-pull-request@v1.0.1
         with:
-          source_branch: "image-update"
-          destination_branch: "auto-pr-branch-create"
+          source_branch: "auto-pr-branch-create"
+          destination_branch: "main"
           pr_title: "${{ env.GIT_COMMIT_MESSAGE_SUBJECT }}"
           pr_body: |
 
             ${{ env.GIT_COMMIT_MESSAGE_BODY }}
 
           pr_label: "auto-pr"
-          pr_reviewer: "Ngha-Boris"  #"mbunwe-victor,Awambeng"
+          pr_reviewer: ""  #"mbunwe-victor,Awambeng"
           pr_allow_empty: true
           github_token: ${{ secrets.GH_PAT }}
